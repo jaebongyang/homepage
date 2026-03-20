@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bsquare | 온프렘 회사 운영 자동화 시스템 개발</title>
+  <meta name="description" content="Bsquare는 온프렘 환경에 최적화된 회사 운영 자동화 시스템을 설계하고 개발합니다. 반복 업무, 데이터 집계, 리포트 자동화, 내부 시스템 연계를 지원합니다." />
+  <meta property="og:title" content="Bsquare | 온프렘 회사 운영 자동화 시스템 개발" />
+  <meta property="og:description" content="보안과 통제를 유지하면서, 회사 운영을 자동화합니다." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: rgba(255, 255, 255, 0.75);
+      --surface-strong: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --line: rgba(15, 23, 42, 0.08);
+      --brand: #0f172a;
+      --brand-soft: #e2e8f0;
+      --accent: #2563eb;
+      --shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 30%),
+        radial-gradient(circle at top right, rgba(15, 23, 42, 0.06), transparent 30%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; }
+
+    .nav-wrap {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(248, 250, 252, 0.75);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+    }
+
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: white; font-size: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .menu { display: flex; gap: 24px; align-items: center; }
+    .menu a { color: var(--muted); font-size: 14px; }
+    .menu a:hover { color: var(--text); }
+
+    .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 12px 18px; border-radius: 999px;
+      border: 1px solid transparent; font-weight: 700; transition: .2s ease;
+    }
+
+    .button-primary {
+      background: var(--brand); color: white;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+    }
+    .button-primary:hover { transform: translateY(-1px); }
+
+    .button-secondary {
+      background: white; border-color: var(--line); color: var(--text);
+    }
+
+    .hero {
+      padding: 84px 0 48px;
+    }
+
+    .hero-grid {
+      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-panel,
+    .card,
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.65);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius-xl);
+    }
+
+    .hero-copy { padding: 48px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 999px;
+      background: white; border: 1px solid var(--line);
+      color: var(--muted); font-size: 13px; font-weight: 700;
+    }
+
+    h1 {
+      margin: 18px 0 16px;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      line-height: 1.05; letter-spacing: -0.05em;
+    }
+
+    .lead {
+      color: var(--muted); font-size: clamp(1rem, 2vw, 1.15rem);
+      max-width: 58ch;
+    }
+
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px;
+    }
+
+    .hero-meta {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin-top: 28px;
+    }
+
+    .mini-stat {
+      padding: 16px; border-radius: 18px; background: white; border: 1px solid var(--line);
+    }
+    .mini-stat strong { display: block; font-size: 1.05rem; }
+    .mini-stat span { color: var(--muted); font-size: 14px; }
+
+    .hero-panel {
+      padding: 28px; display: flex; flex-direction: column; gap: 18px;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(15,23,42,0.96), rgba(30,41,59,0.96));
+      color: white;
+    }
+
+    .panel-chip {
+      display: inline-flex; width: fit-content; padding: 8px 12px; border-radius: 999px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.84); font-size: 13px; font-weight: 700;
+    }
+
+    .panel-list { display: grid; gap: 12px; margin-top: 8px; }
+    .panel-item {
+      padding: 16px; border-radius: 18px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+    }
+    .panel-item strong { display: block; margin-bottom: 4px; }
+    .panel-item p { margin: 0; color: rgba(255,255,255,0.76); font-size: 14px; }
+
+    section { padding: 36px 0; }
+    .section-head { margin-bottom: 20px; }
+    .section-head .label {
+      color: var(--accent); font-weight: 800; font-size: 14px; letter-spacing: -0.02em;
+    }
+    .section-head h2 {
+      margin: 8px 0 10px; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+    .section-head p { margin: 0; color: var(--muted); max-width: 68ch; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+    .card { padding: 26px; }
+    .card-icon {
+      width: 46px; height: 46px; border-radius: 14px;
+      display: grid; place-items: center; font-weight: 800;
+      background: var(--brand-soft); margin-bottom: 16px;
+    }
+    .card h3 { margin: 0 0 10px; font-size: 1.15rem; letter-spacing: -0.02em; }
+    .card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    .workflow {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    }
+    .step {
+      padding: 22px; border-radius: 22px; background: white; border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .step .num {
+      display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+      background: var(--brand); color: white; font-weight: 800; margin-bottom: 12px;
+    }
+    .step h4 { margin: 0 0 8px; font-size: 1rem; }
+    .step p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .contact-box {
+      padding: 32px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; align-items: center;
+    }
+    .contact-box h3 { margin: 0 0 8px; font-size: 1.6rem; letter-spacing: -0.03em; }
+    .contact-box p { margin: 0; color: var(--muted); }
+
+    .contact-actions {
+      display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap;
+    }
+
+    footer {
+      padding: 28px 0 48px; color: var(--muted); font-size: 14px;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid, .grid-3, .grid-2, .workflow, .contact-box {
+        grid-template-columns: 1fr;
+      }
+      .hero-copy { padding: 32px; }
+      .hero-meta { grid-template-columns: 1fr; }
+      .contact-actions { justify-content: flex-start; }
+    }
+
+    @media (max-width: 720px) {
+      .menu a:not(.button) { display: none; }
+      nav { gap: 12px; }
+      .hero { padding-top: 44px; }
+      .hero-copy, .hero-panel, .card, .contact-box { border-radius: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <div class="container">
+      <nav>
+        <a href="#top" class="brand" aria-label="Bsquare 홈으로 이동">
+          <span class="brand-mark">B²</span>
+          <span>Bsquare</span>
+        </a>
+        <div class="menu">
+          <a href="#services">서비스</a>
+          <a href="#solutions">적용 영역</a>
+          <a href="#process">진행 방식</a>
+          <a href="#contact" class="button button-primary">문의하기</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">On-Prem Automation for Business Operations</span>
+          <h1>보안과 통제를 유지하면서,<br>회사 운영을 자동화합니다.</h1>
+          <p class="lead">
+            Bsquare는 온프렘 환경에 최적화된 회사 운영 자동화 시스템을 설계하고 개발합니다.
+            반복 업무, 데이터 집계, 리포트 생성, 내부 시스템 연계를 더 빠르고 안정적으로 운영할 수 있도록 지원합니다.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact" class="button button-primary">도입 문의</a>
+            <a href="#services" class="button button-secondary">서비스 보기</a>
+          </div>
+          <div class="hero-meta">
+            <div class="mini-stat">
+              <strong>온프렘 중심</strong>
+              <span>사내망·보안 정책에 맞춘 구축</span>
+            </div>
+            <div class="mini-stat">
+              <strong>업무 자동화</strong>
+              <span>반복 운영 업무의 표준화와 자동화</span>
+            </div>
+            <div class="mini-stat">
+              <strong>맞춤형 개발</strong>
+              <span>현업 흐름에 맞춘 내부 시스템 설계</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="핵심 역량">
+          <span class="panel-chip">Core Capabilities</span>
+          <h2 style="margin:0; font-size:2rem; letter-spacing:-0.04em; line-height:1.08;">회사 운영의 복잡성을<br>현실적으로 줄이는 방식</h2>
+          <div class="panel-list">
+            <div class="panel-item">
+              <strong>Internal Workflow Automation</strong>
+              <p>수기 보고, 반복 정리, 수동 전송 같은 업무를 자동화합니다.</p>
+            </div>
+            <div class="panel-item">
+              <strong>Data Collection & Reporting</strong>
+              <p>분산된 데이터를 수집하고 정리해 실무형 리포트로 연결합니다.</p>
+            </div>
+            <div class="panel-item">
+              <strong>System Integration</strong>
+              <p>기존 내부 시스템과 연계해 도입 부담을 낮추고 활용도를 높입니다.</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-head">
+          <div class="label">서비스</div>
+          <h2>온프렘 환경에 맞춘 운영 자동화</h2>
+          <p>클라우드 전환이 어려운 조직에서도 사용할 수 있도록, 보안과 통제를 우선으로 두고 실무 중심의 자동화 시스템을 설계합니다.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <div class="card-icon">01</div>
+            <h3>업무 프로세스 자동화</h3>
+            <p>반복 입력, 데이터 정리, 파일 생성, 정기 발송, 승인 요청 등 수작업 중심 업무를 자동화합니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">02</div>
+            <h3>데이터 수집 및 리포트 자동화</h3>
+            <p>여러 시스템과 파일에 흩어진 데이터를 모아 운영 리포트와 의사결정 자료로 연결합니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">03</div>
+            <h3>사내 맞춤형 시스템 개발</h3>
+            <p>조직의 업무 흐름과 보안 요건을 반영한 내부 운영 도구와 관리 화면을 구축합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="solutions">
+      <div class="container">
+        <div class="section-head">
+          <div class="label">적용 영역</div>
+          <h2>이런 운영 과제를 자동화할 수 있습니다</h2>
+          <p>산업과 조직 규모에 따라 방식은 달라지지만, 대부분의 운영 비효율은 표준화와 자동화로 줄일 수 있습니다.</p>
+        </div>
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-icon">A</div>
+            <h3>영업·운영 관리</h3>
+            <p>수발주 관리, 거래처 운영, 일일/주간 보고, 실적 정리, 예외 알림 같은 업무를 자동화합니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">B</div>
+            <h3>재고·물류 흐름 관리</h3>
+            <p>재고 데이터 정리, 입출고 현황 집계, 기준치 알림, 정기 리포트 생성을 지원합니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">C</div>
+            <h3>경영 리포트 및 대시보드</h3>
+            <p>엑셀 중심 보고 체계를 줄이고, 데이터 집계와 시각화를 자동화해 의사결정을 빠르게 돕습니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">D</div>
+            <h3>내부 업무 시스템 연계</h3>
+            <p>기존 ERP, 그룹웨어, DB, 파일 서버 등과 연계해 운영 흐름을 끊지 않고 확장할 수 있습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="container">
+        <div class="section-head">
+          <div class="label">진행 방식</div>
+          <h2>복잡한 구축보다, 필요한 업무부터 작게 시작</h2>
+          <p>MVP로 빠르게 검증하고, 실제 운영에 맞춰 단계적으로 확장하는 방식을 지향합니다.</p>
+        </div>
+        <div class="workflow">
+          <div class="step">
+            <div class="num">1</div>
+            <h4>업무 진단</h4>
+            <p>현재 운영 흐름과 병목 지점을 파악합니다.</p>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <h4>MVP 설계</h4>
+            <p>자동화 우선순위를 정하고 최소 기능을 정의합니다.</p>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <h4>온프렘 구축</h4>
+            <p>사내 환경에 맞춰 시스템을 개발하고 연결합니다.</p>
+          </div>
+          <div class="step">
+            <div class="num">4</div>
+            <h4>운영 확장</h4>
+            <p>실사용 데이터를 기반으로 단계적으로 고도화합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <div>
+            <div class="label" style="color:var(--accent); font-weight:800; font-size:14px;">Contact</div>
+            <h3>Bsquare와 함께 운영 자동화를 시작해보세요</h3>
+            <p>회사 소개, 도입 문의, 협업 제안에 대해 아래 채널로 연락할 수 있습니다. 실제 이메일 주소와 소개 자료 링크로 교체해 사용하세요.</p>
+          </div>
+          <div class="contact-actions">
+            <a class="button button-primary" href="mailto:contact@bsquare.company">contact@bsquare.company</a>
+            <a class="button button-secondary" href="#top">맨 위로</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><strong>Bsquare</strong> · 온프렘 회사 운영 자동화 시스템 개발</div>
+      <div>© 2026 Bsquare. All rights reserved.</div>
+    </div>
+  </footer>
+</body>
+</html>
